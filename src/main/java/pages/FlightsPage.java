@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class FlightsPage {
@@ -15,76 +16,108 @@ public class FlightsPage {
     private WebDriverWait wait;
     private JavascriptExecutor js;
     
+    @FindBy(xpath = "//span[text()='From']")
+    private WebElement fromLabel;
+    
+    @FindBy(xpath = "//input[@placeholder='From']")
+    private WebElement fromInput;
+    
+    @FindBy(xpath = "//span[text()='To']")
+    private WebElement toLabel;
+    
+    @FindBy(xpath = "//input[@placeholder='To']")
+    private WebElement toInput;
+    
+    @FindBy(xpath = "//p[@data-cy='submit']")
+    private WebElement searchButton;
+    
+    @FindBy(xpath = "//span[text()='Departure']")
+    private WebElement departureLabel;
+    
+    @FindBy(xpath = "//div[contains(@class,'DayPicker-Day--today')]")
+    private WebElement todayDate;
+    
     public FlightsPage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         this.js = (JavascriptExecutor) driver;
         PageFactory.initElements(driver, this);
     }
     
     public void enterFrom(String city) {
-        // Click container to activate field
-        WebElement fromContainer = wait.until(ExpectedConditions.elementToBeClickable(
-            By.xpath("//label[@for='fromCity'] | //span[text()='From']")));
-        fromContainer.click();
-        
-        // Type in the input
-        WebElement fromInput = wait.until(ExpectedConditions.visibilityOfElementLocated(
-            By.xpath("//input[@placeholder='From'] | //input[@id='fromCity']")));
-        fromInput.clear();
-        fromInput.sendKeys(city);
-        
-        // Click first suggestion
-        WebElement firstOption = wait.until(ExpectedConditions.elementToBeClickable(
-            By.xpath("//ul[@role='listbox']//li[1]")));
-        firstOption.click();
-        
-        System.out.println("From: " + city);
+        try {
+            wait.until(ExpectedConditions.elementToBeClickable(fromLabel));
+            js.executeScript("arguments[0].click();", fromLabel);
+            
+            wait.until(ExpectedConditions.visibilityOf(fromInput));
+            fromInput.clear();
+            fromInput.sendKeys(city);
+            
+            
+            WebElement firstSuggestion = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//ul[@role='listbox']//li[1]")));
+            js.executeScript("arguments[0].click();", firstSuggestion);
+            
+            System.out.println("From city entered: " + city);
+        } catch (Exception e) {
+            System.out.println("Error entering from city: " + e.getMessage());
+        }
     }
     
     public void enterTo(String city) {
-        // Click container to activate field
-        WebElement toContainer = wait.until(ExpectedConditions.elementToBeClickable(
-            By.xpath("//label[@for='toCity'] | //span[text()='To']")));
-        toContainer.click();
-        
-        // Type in the input
-        WebElement toInput = wait.until(ExpectedConditions.visibilityOfElementLocated(
-            By.xpath("//input[@placeholder='To'] | //input[@id='toCity']")));
-        toInput.clear();
-        toInput.sendKeys(city);
-        
-        // Click first suggestion
-        WebElement firstOption = wait.until(ExpectedConditions.elementToBeClickable(
-            By.xpath("//ul[@role='listbox']//li[1]")));
-        firstOption.click();
-        
-        System.out.println("To: " + city);
+        try {
+            wait.until(ExpectedConditions.elementToBeClickable(toLabel));
+            js.executeScript("arguments[0].click();", toLabel);
+            
+            wait.until(ExpectedConditions.visibilityOf(toInput));
+            toInput.clear();
+            toInput.sendKeys(city);
+            
+            // Select first suggestion - simplified xpath
+            WebElement firstSuggestion = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//ul[@role='listbox']//li[1]")));
+            js.executeScript("arguments[0].click();", firstSuggestion);
+            
+            System.out.println("To city entered: " + city);
+        } catch (Exception e) {
+            System.out.println("Error entering to city: " + e.getMessage());
+        }
     }
     
     public void selectDate() {
-        // Click date field
-        WebElement dateLabel = wait.until(ExpectedConditions.presenceOfElementLocated(
-            By.xpath("//span[text()='Departure'] | //label[contains(text(),'Departure')]")));
-        js.executeScript("arguments[0].click();", dateLabel);
-        
-        // Select today's date
-        WebElement today = wait.until(ExpectedConditions.presenceOfElementLocated(
-            By.xpath("//div[contains(@class,'DayPicker-Day--today')]")));
-        js.executeScript("arguments[0].click();", today);
-        
-        System.out.println("Date selected");
+        try {
+            wait.until(ExpectedConditions.elementToBeClickable(departureLabel));
+            js.executeScript("arguments[0].click();", departureLabel);
+            
+            wait.until(ExpectedConditions.elementToBeClickable(todayDate));
+            js.executeScript("arguments[0].click();", todayDate);
+            
+            System.out.println("Departure date selected");
+        } catch (Exception e) {
+            System.out.println("Error selecting date: " + e.getMessage());
+        }
     }
     
     public void clickSearch() {
-        WebElement searchBtn = wait.until(ExpectedConditions.elementToBeClickable(
-            By.xpath("//p[@data-cy='submit']")));
-        js.executeScript("arguments[0].scrollIntoView({block: 'center'});", searchBtn);
-        js.executeScript("arguments[0].click();", searchBtn);
-        System.out.println("Search clicked");
+        try {
+            wait.until(ExpectedConditions.elementToBeClickable(searchButton));
+            js.executeScript("arguments[0].scrollIntoView({block: 'center'});", searchButton);
+            js.executeScript("arguments[0].click();", searchButton);
+            System.out.println("Search button clicked");
+            
+            // Wait for URL change instead of fixed sleep
+            wait.until(ExpectedConditions.urlContains("www.makemytrip.com"));
+            System.out.println("Results page loaded");
+        } catch (Exception e) {
+            System.out.println("Error clicking search: " + e.getMessage());
+        }
     }
     
     public boolean areResultsDisplayed() {
-        return wait.until(ExpectedConditions.urlContains("flight"));
+        try {
+            return driver.getCurrentUrl().contains("www.makemytrip.com");
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

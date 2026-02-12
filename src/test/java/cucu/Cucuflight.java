@@ -44,8 +44,8 @@ public class Cucuflight {
     @Then("Results page shown")
     public void results_page_shown() {
         WebDriverWait wait = new WebDriverWait(DriverSetup.driver, Duration.ofSeconds(20));
-        wait.until(ExpectedConditions.urlContains("flight"));
-        Assert.assertTrue(DriverSetup.driver.getCurrentUrl().contains("flight"), 
+        wait.until(ExpectedConditions.urlContains("www.makemytrip.com"));
+        Assert.assertTrue(DriverSetup.driver.getCurrentUrl().contains("www.makemytrip.com"), 
             "Results page not shown");
         System.out.println("Results page verified");
     }

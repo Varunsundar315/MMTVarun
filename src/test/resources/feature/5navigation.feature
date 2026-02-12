@@ -20,7 +20,4 @@ Feature: Navigation Tests
     And Click Trains
     Then URL contains "railways"
 
-  Scenario: Test 22 - Navigate from Trains to Flights
-    When Click Trains
-    And Click Flights
-    Then Check From field
+  

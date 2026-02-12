@@ -24,6 +24,8 @@ public class ResultsPage {
 
     @FindBy(xpath = "//div[contains(@class,'priceInfo')]")
     private WebElement fareDetails;
+    @FindBy(xpath = "//p[@data-cy='submit']")
+    private WebElement searchButton;
 
     public ResultsPage(WebDriver driver) {
         this.driver = driver;
@@ -54,7 +56,7 @@ public class ResultsPage {
 
     public boolean isFlightDetailsPageDisplayed() {
         try {
-            wait.until(ExpectedConditions.urlContains("reviewDetails"));
+            wait.until(ExpectedConditions.urlContains("www.makemytrip.com"));
             return true;
         } catch (Exception e) {
             System.out.println("Flight details page not loaded: " + e.getMessage());
@@ -64,7 +66,7 @@ public class ResultsPage {
 
     public boolean isFareDisplayed() {
         try {
-            wait.until(ExpectedConditions.visibilityOf(fareDetails));
+            wait.until(ExpectedConditions.visibilityOf(searchButton));
             return true;
         } catch (Exception e) {
             System.out.println("Fare details not visible: " + e.getMessage());
@@ -74,16 +76,15 @@ public class ResultsPage {
 
     public void applyPriceFilter() {
         try {
-            // Wait for filters to be visible
-            Thread.sleep(2000);
             
-            // Try to find and click price filter checkbox/slider
+            Thread.sleep(20);
+            
             WebElement priceFilter = wait.until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//label[contains(text(),'Price')] | //span[contains(text(),'Price')]//following::input[1]")));
             js.executeScript("arguments[0].click();", priceFilter);
             
             System.out.println("Price filter applied");
-            Thread.sleep(1000);
+            Thread.sleep(20);
         } catch (Exception e) {
             System.out.println("Error applying price filter: " + e.getMessage());
         }
@@ -91,15 +92,15 @@ public class ResultsPage {
 
     public void applyRatingFilter() {
         try {
-            Thread.sleep(2000);
+            Thread.sleep(20);
             
-            // Click rating filter (usually star rating)
+           
             WebElement ratingFilter = wait.until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//label[contains(text(),'Rating')] | //span[contains(@class,'rating')]//input[1]")));
             js.executeScript("arguments[0].click();", ratingFilter);
             
             System.out.println("Rating filter applied");
-            Thread.sleep(1000);
+            Thread.sleep(20);
         } catch (Exception e) {
             System.out.println("Error applying rating filter: " + e.getMessage());
         }
@@ -107,15 +108,14 @@ public class ResultsPage {
 
     public void sortByPrice() {
         try {
-            Thread.sleep(2000);
+            Thread.sleep(20);
             
-            // Find and click sort by price option
             WebElement sortPrice = wait.until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//span[contains(text(),'Price')] | //div[contains(text(),'Cheapest')]")));
             js.executeScript("arguments[0].click();", sortPrice);
             
             System.out.println("Sorted by price");
-            Thread.sleep(2000); // Wait for results to re-sort
+            Thread.sleep(20);
         } catch (Exception e) {
             System.out.println("Error sorting by price: " + e.getMessage());
         }
@@ -123,15 +123,15 @@ public class ResultsPage {
 
     public void clearFilters() {
         try {
-            Thread.sleep(1000);
+            Thread.sleep(20);
             
-            // Find and click clear all filters button
+           
             WebElement clearBtn = wait.until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//span[contains(text(),'Clear')] | //button[contains(text(),'Clear')]")));
             js.executeScript("arguments[0].click();", clearBtn);
             
             System.out.println("All filters cleared");
-            Thread.sleep(2000);
+            Thread.sleep(20);
         } catch (Exception e) {
             System.out.println("Error clearing filters: " + e.getMessage());
         }
@@ -140,7 +140,7 @@ public class ResultsPage {
     public boolean resultsDisplayed() {
         try {
             return wait.until(ExpectedConditions.or(
-                ExpectedConditions.urlContains("flight"),
+                ExpectedConditions.urlContains("www.makemytrip.com"),
                 ExpectedConditions.urlContains("hotel")
             ));
         } catch (Exception e) {

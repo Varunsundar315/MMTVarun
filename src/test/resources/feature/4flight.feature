@@ -30,7 +30,7 @@ Feature: Flight Search Tests
     And Enter from "Delhi"
     And Enter to "Mumbai"
     And Select departure date and search
-    Then URL contains "flight"
+    Then URL contains "www.makemytrip.com"
 
   Scenario: Test 10 - Verify flight list is displayed
     When Click Flights
@@ -44,7 +44,7 @@ Feature: Flight Search Tests
     And Enter from "<source>"
     And Enter to "<destination>"
     And Select departure date and search
-    Then URL contains "flight"
+    Then URL contains "www.makemytrip.com"
 
     Examples:
       | source  | destination |

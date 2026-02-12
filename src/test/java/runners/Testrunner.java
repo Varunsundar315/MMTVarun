@@ -1,23 +1,22 @@
 package runners;
 
 import io.cucumber.testng.AbstractTestNGCucumberTests;
-
 import io.cucumber.testng.CucumberOptions;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import base.DriverSetup;
+import org.testng.annotations.DataProvider;
 
 @CucumberOptions(
-    features = {"src/test/resources/feature/flight.feature",
+    features = {
+        "src/test/resources/feature"
     },
-    glue = "cucu",
+    glue = {"cucu", "base"},
     plugin = {
         "pretty",
-        "html:target/cucumber-reports.html",
-        "json:target/cucumber.json"
+        "html:target/cucumber-reports/cucumber.html",
+        "json:target/cucumber-reports/cucumber.json"
     },
     monochrome = true
 )
-public class Testrunner extends AbstractTestNGCucumberTests {
-   
+public class TestRunner extends AbstractTestNGCucumberTests {
+    
+  
 }

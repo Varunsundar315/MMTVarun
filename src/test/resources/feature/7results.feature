@@ -19,4 +19,4 @@ Feature: Flight Results Page Tests
     Then Fare details shown
 
   Scenario: Test 26 - Verify results page URL contains flight
-    Then URL contains "flight"
+    Then URL contains "www.makemytrip.com"

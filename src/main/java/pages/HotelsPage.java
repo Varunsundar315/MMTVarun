@@ -15,30 +15,30 @@ public class HotelsPage {
     private JavascriptExecutor js;
     private WaitUtils waitUtils;
     
-    @FindBy(xpath = "//label[@for='city']")
+    @FindBy(xpath = "//span[@data-cy='hotelCityLabel']")
     private WebElement cityLabel;
     
-    @FindBy(xpath = "//input[contains(@placeholder,'Enter city') or contains(@placeholder,'city')]")
+    @FindBy(xpath = "//input[@placeholder='Where do you want to stay?']")
     private WebElement cityInput;
     
-    @FindBy(xpath = "//span[@data-cy='checkin']")
+    @FindBy(xpath = "//input[@data-cy='checkin']")
     private WebElement checkin;
     
-    @FindBy(xpath = "//span[@data-cy='checkout']")
+    @FindBy(xpath = "//input[@data-cy='checkout']")
     private WebElement checkout;
     
     @FindBy(xpath = "//input[@data-cy='guest']")
     private WebElement guest;
     
-    @FindBy(xpath = "//button[text()='Apply' or contains(text(),'APPLY')]")
+    @FindBy(xpath = "//button[text()='APPLY']")
     private WebElement apply;
     
-    @FindBy(xpath = "//button[contains(@class,'primaryBtn')]")
+    @FindBy(xpath = "//button[@data-cy='submit']")
     private WebElement searchButton;
     
     public HotelsPage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         this.js = (JavascriptExecutor) driver;
         this.waitUtils = new WaitUtils(driver);
         PageFactory.initElements(driver, this);
@@ -48,12 +48,12 @@ public class HotelsPage {
         try {
             wait.until(ExpectedConditions.elementToBeClickable(cityLabel));
             js.executeScript("arguments[0].click();", cityLabel);
-            waitUtils.sleep(500);
+            waitUtils.sleep(20);
             
             wait.until(ExpectedConditions.visibilityOf(cityInput));
             cityInput.clear();
             cityInput.sendKeys(city);
-            waitUtils.sleep(1500);
+            waitUtils.sleep(20);
             
             WebElement suggestion = wait.until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//li//span[contains(text(),'" + city + "')]")));
@@ -69,7 +69,7 @@ public class HotelsPage {
         try {
             wait.until(ExpectedConditions.elementToBeClickable(checkin));
             js.executeScript("arguments[0].click();", checkin);
-            waitUtils.sleep(500);
+            waitUtils.sleep(20);
             selectDate(day);
         } catch (Exception e) {
             System.out.println("Error selecting check-in: " + e.getMessage());
@@ -78,7 +78,7 @@ public class HotelsPage {
     
     public void selectCheckOut(String day) {
         try {
-            waitUtils.sleep(500);
+            waitUtils.sleep(20);
             selectDate(day);
         } catch (Exception e) {
             System.out.println("Error selecting check-out: " + e.getMessage());
@@ -90,7 +90,7 @@ public class HotelsPage {
             WebElement date = wait.until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//div[contains(@class,'DayPicker-Day') and @aria-disabled='false' and text()='" + day + "']")));
             js.executeScript("arguments[0].click();", date);
-            waitUtils.sleep(500);
+            waitUtils.sleep(20);
             System.out.println("Date selected: " + day);
         } catch (Exception e) {
             System.out.println("Error selecting date: " + e.getMessage());
@@ -101,7 +101,7 @@ public class HotelsPage {
         try {
             wait.until(ExpectedConditions.elementToBeClickable(guest));
             js.executeScript("arguments[0].click();", guest);
-            waitUtils.sleep(500);
+            waitUtils.sleep(20);
             
             wait.until(ExpectedConditions.elementToBeClickable(apply));
             js.executeScript("arguments[0].click();", apply);
@@ -116,10 +116,10 @@ public class HotelsPage {
         try {
             wait.until(ExpectedConditions.elementToBeClickable(searchButton));
             js.executeScript("arguments[0].scrollIntoView(true);", searchButton);
-            waitUtils.sleep(500);
+            waitUtils.sleep(20);
             js.executeScript("arguments[0].click();", searchButton);
             System.out.println("Search button clicked");
-            waitUtils.sleep(3000);
+            waitUtils.sleep(20);
         } catch (Exception e) {
             System.out.println("Error clicking search: " + e.getMessage());
         }
@@ -127,7 +127,7 @@ public class HotelsPage {
     
     public boolean isHotelResultsDisplayed() {
         try {
-            waitUtils.sleep(3000);
+            waitUtils.sleep(20);
             return driver.getCurrentUrl().contains("hotel");
         } catch (Exception e) {
             return false;

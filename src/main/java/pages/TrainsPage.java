@@ -38,7 +38,7 @@ public class TrainsPage {
     
     public TrainsPage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         this.js = (JavascriptExecutor) driver;
         this.waitUtils = new WaitUtils(driver);
         PageFactory.initElements(driver, this);
@@ -48,12 +48,12 @@ public class TrainsPage {
         try {
             wait.until(ExpectedConditions.elementToBeClickable(fromLabel));
             js.executeScript("arguments[0].click();", fromLabel);
-            waitUtils.sleep(500);
+            waitUtils.sleep(20);
             
             wait.until(ExpectedConditions.visibilityOf(fromInput));
             fromInput.clear();
             fromInput.sendKeys(station);
-            waitUtils.sleep(1500);
+            waitUtils.sleep(20);
             
             WebElement firstSuggestion = wait.until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//li//span[contains(text(),'" + station + "')]")));
@@ -69,12 +69,12 @@ public class TrainsPage {
         try {
             wait.until(ExpectedConditions.elementToBeClickable(toLabel));
             js.executeScript("arguments[0].click();", toLabel);
-            waitUtils.sleep(500);
+            waitUtils.sleep(20);
             
             wait.until(ExpectedConditions.visibilityOf(toInput));
             toInput.clear();
             toInput.sendKeys(station);
-            waitUtils.sleep(1500);
+            waitUtils.sleep(20);
             
             WebElement correctStation = wait.until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//li//span[contains(text(),'" + station + "')]")));
@@ -94,7 +94,7 @@ public class TrainsPage {
             
             wait.until(ExpectedConditions.elementToBeClickable(departureLabel));
             js.executeScript("arguments[0].click();", departureLabel);
-            waitUtils.sleep(500);
+            waitUtils.sleep(20);
             
             WebElement date = wait.until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//div[contains(@class,'DayPicker-Day') and @aria-disabled='false' and text()='" + day + "']")));
@@ -110,10 +110,10 @@ public class TrainsPage {
         try {
             wait.until(ExpectedConditions.elementToBeClickable(searchBtn));
             js.executeScript("arguments[0].scrollIntoView(true);", searchBtn);
-            waitUtils.sleep(500);
+            waitUtils.sleep(20);
             js.executeScript("arguments[0].click();", searchBtn);
             System.out.println("Search button clicked");
-            waitUtils.sleep(3000);
+            waitUtils.sleep(20);
         } catch (Exception e) {
             System.out.println("Error clicking search: " + e.getMessage());
         }
