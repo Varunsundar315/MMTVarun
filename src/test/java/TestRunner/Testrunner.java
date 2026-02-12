@@ -1,4 +1,4 @@
-package runners;
+package TestRunner;
 
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
@@ -16,7 +16,7 @@ import org.testng.annotations.DataProvider;
     },
     monochrome = true
 )
-public class TestRunner extends AbstractTestNGCucumberTests {
+public class Testrunner extends AbstractTestNGCucumberTests {
     
   
 }
