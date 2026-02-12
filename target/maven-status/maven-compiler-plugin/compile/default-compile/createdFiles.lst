@@ -1,9 +1,0 @@
-pages\ResultsPage.class
-pages\TrainsPage.class
-base\DriverSetup.class
-pages\HomePage.class
-utils\ScreenshotUtil.class
-pages\HotelsPage.class
-base\ConfigReader.class
-pages\FlightsPage.class
-utils\WaitUtils.class
