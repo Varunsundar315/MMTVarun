@@ -8,7 +8,7 @@ import org.testng.annotations.DataProvider;
     features = {
         "src/test/resources/feature"
     },
-    glue = {"cucu", "base"},
+    glue = {"cucu"},
     plugin = {
         "pretty",
         "html:target/cucumber-reports/cucumber.html",

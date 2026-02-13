@@ -14,7 +14,6 @@ public class CucuResult {
     
     @When("Search flight from {string} to {string}")
     public void search_flight_from_to(String from, String to) {
-        // Use FlightsPage to perform the search
         flightPage = new FlightsPage(DriverSetup.driver);
         flightPage.enterFrom(from);
         flightPage.enterTo(to);

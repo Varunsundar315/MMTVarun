@@ -26,11 +26,6 @@ public class Cucuhotel {
         hotelsPage.selectCheckOut(day);
     }
     
-    @And("Select rooms {string} adults {string}")
-    public void select_rooms_adults(String rooms, String adults) {
-        hotelsPage.selectGuests(rooms, adults);
-    }
-    
     @And("Click hotel search")
     public void click_hotel_search() {
         hotelsPage.clickSearch();

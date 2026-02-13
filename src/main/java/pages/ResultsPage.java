@@ -116,7 +116,7 @@ public class ResultsPage {
     public boolean resultsDisplayed() {
         wait.until(ExpectedConditions.or(
                 ExpectedConditions.urlContains("makemytrip.com"),
-                ExpectedConditions.urlContains("hotel")
+                ExpectedConditions.urlContains("hotels")
         ));
         return true;
     }

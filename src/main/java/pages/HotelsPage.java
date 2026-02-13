@@ -2,6 +2,7 @@ package pages;
 
 import java.time.Duration;
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -35,6 +36,13 @@ public class HotelsPage {
 
     @FindBy(xpath = "//button[@data-cy='submit']")
     private WebElement searchButton;
+    
+    @FindBy(xpath = "//div[contains(@class,'DayPicker-Day--today')]")
+    private WebElement todayDate;
+    
+    @FindBy(xpath = "//span[text()='Check-In']")
+    private WebElement departureLabel;
+
 
     public HotelsPage(WebDriver driver) {
         this.driver = driver;
@@ -48,35 +56,47 @@ public class HotelsPage {
 
         wait.until(ExpectedConditions.elementToBeClickable(cityLabel));
         js.executeScript("arguments[0].click();", cityLabel);
+
         wait.until(ExpectedConditions.visibilityOf(cityInput));
         cityInput.clear();
         cityInput.sendKeys(city);
-        By suggestion =By.xpath("//ul[@role='listbox']//li[1]");
-        WebElement firstSuggestion =wait.until(ExpectedConditions.elementToBeClickable(suggestion));
-        js.executeScript("arguments[0].click();", firstSuggestion);
+
+       
+        wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//ul[@role='listbox']")));
+
+        Actions actions = new Actions(driver);
+        actions.pause(Duration.ofMillis(500))
+               .sendKeys(Keys.ARROW_DOWN)
+               .sendKeys(Keys.ENTER)
+               .build()
+               .perform();
     }
 
     public void selectCheckIn(String day) {
 
-        wait.until(ExpectedConditions.elementToBeClickable(checkin));
-        js.executeScript("arguments[0].click();", checkin);
-
-        selectDate(day);
+    	wait.until(ExpectedConditions.elementToBeClickable(departureLabel));
+        js.executeScript("arguments[0].click();", departureLabel);
+        wait.until(ExpectedConditions.elementToBeClickable(todayDate));
+        js.executeScript("arguments[0].click();", todayDate);
     }
 
     public void selectCheckOut(String day) {
         selectDate(day);
     }
 
-    public void selectDate(String day) {
+    private void selectDate(String day) {
 
         By dateLocator = By.xpath(
-                "//div[contains(@class,'DayPicker-Day') and " +
-                "@aria-disabled='false' and text()='" + day + "']");
+                "//div[contains(@class,'DayPicker-Day') " +
+                "and @aria-disabled='false' " +
+                "and normalize-space()='" + day + "']"
+        );
 
         WebElement date =
                 wait.until(ExpectedConditions.elementToBeClickable(dateLocator));
 
+        js.executeScript("arguments[0].scrollIntoView({block:'center'});", date);
         js.executeScript("arguments[0].click();", date);
     }
 
@@ -93,6 +113,7 @@ public class HotelsPage {
         wait.until(ExpectedConditions.elementToBeClickable(searchButton));
         js.executeScript("arguments[0].scrollIntoView({block:'center'});", searchButton);
         js.executeScript("arguments[0].click();", searchButton);
+
         wait.until(ExpectedConditions.urlContains("hotel"));
     }
 

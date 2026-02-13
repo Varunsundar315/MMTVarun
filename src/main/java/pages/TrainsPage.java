@@ -2,6 +2,7 @@ package pages;
 
 import java.time.Duration;
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -15,23 +16,27 @@ public class TrainsPage {
     private JavascriptExecutor js;
     private WaitUtils waitUtils;
 
-    @FindBy(xpath = "//input[@data-cy='fromCity']")
+    @FindBy(xpath = "//label[@for='fromCity']")
     private WebElement fromLabel;
 
     @FindBy(xpath = "//input[@placeholder='From']")
     private WebElement fromInput;
 
-    @FindBy(xpath = "//input[@data-cy='toCity']")
+    @FindBy(xpath = "//label[@for='toCity']")
     private WebElement toLabel;
 
     @FindBy(xpath = "//input[@placeholder='To']")
     private WebElement toInput;
 
-    @FindBy(xpath = "//label[@for='travelDate']")
+    @FindBy(xpath = "//span[text()='Travel Date']")
     private WebElement departureLabel;
 
     @FindBy(xpath = "//a[@data-cy='submit']")
     private WebElement searchBtn;
+    
+    @FindBy(xpath = "//div[contains(@class,'DayPicker-Day--today')]")
+    private WebElement todayDate;
+
 
     public TrainsPage(WebDriver driver) {
         this.driver = driver;
@@ -50,13 +55,10 @@ public class TrainsPage {
         fromInput.clear();
         fromInput.sendKeys(station);
 
-        By firstSuggestion =
-                By.xpath("//ul[@role='listbox']//li[1]");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//ul[@role='listbox']")));
 
-        WebElement suggestion =
-                wait.until(ExpectedConditions.elementToBeClickable(firstSuggestion));
-
-        js.executeScript("arguments[0].click();", suggestion);
+        new Actions(driver).pause(Duration.ofMillis(400)).sendKeys(Keys.ARROW_DOWN).sendKeys(Keys.ENTER).perform();
     }
 
     public void enterTo(String station) {
@@ -68,39 +70,22 @@ public class TrainsPage {
         toInput.clear();
         toInput.sendKeys(station);
 
-        By firstSuggestion =
-                By.xpath("//ul[@role='listbox']//li[1]");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//ul[@role='listbox']")));
 
-        WebElement suggestion =
-                wait.until(ExpectedConditions.elementToBeClickable(firstSuggestion));
-
-        js.executeScript("arguments[0].click();", suggestion);
+        new Actions(driver).pause(Duration.ofMillis(400)).sendKeys(Keys.ARROW_DOWN).sendKeys(Keys.ENTER).perform();
     }
 
+   
     public void selectDepartureDate(String day) {
 
-        if (day == null || day.isEmpty()) {
-            return;
-        }
-
-        wait.until(ExpectedConditions.elementToBeClickable(departureLabel));
+    	wait.until(ExpectedConditions.elementToBeClickable(departureLabel));
         js.executeScript("arguments[0].click();", departureLabel);
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(
-                By.className("DayPicker")));
-
-        By dateLocator = By.xpath(
-                "//div[contains(@class,'DayPicker-Day') " +
-                "and not(contains(@class,'DayPicker-Day--disabled')) " +
-                "and normalize-space()='" + day + "']"
-        );
-
-        WebElement date =
-                wait.until(ExpectedConditions.visibilityOfElementLocated(dateLocator));
-
-        js.executeScript("arguments[0].scrollIntoView({block:'center'});", date);
-        js.executeScript("arguments[0].click();", date);
+        wait.until(ExpectedConditions.elementToBeClickable(todayDate));
+        js.executeScript("arguments[0].click();", todayDate);
     }
+   
 
     public void clickSearch() {
 

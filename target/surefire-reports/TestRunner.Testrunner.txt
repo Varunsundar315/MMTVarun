@@ -1,0 +1,64 @@
+-------------------------------------------------------------------------------
+Test set: TestRunner.Testrunner
+-------------------------------------------------------------------------------
+Tests run: 35, Failures: 4, Errors: 0, Skipped: 0, Time elapsed: 610.3 s <<< FAILURE! -- in TestRunner.Testrunner
+TestRunner.Testrunner.runScenario["Test 19 - Apply price filter and verify results", "Filters and Sorting Tests"](28) -- Time elapsed: 36.24 s <<< FAILURE!
+org.openqa.selenium.TimeoutException: 
+Expected condition failed: waiting for element found by By.xpath: //label[contains(text(),'Price')] | //span[contains(text(),'Price')]//following::input[1] to be clickable, but the element was not found: org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {"method":"xpath","selector":"//label[contains(text(),'Price')] | //span[contains(text(),'Price')]//following::input[1]"}.
+(tried for 15 seconds with 500 milliseconds interval)
+Build info: version: '4.40.0', revision: 'b3333f1'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '25.0.2'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 144.0.7559.133, chrome: {chromedriverVersion: 144.0.7559.133 (7da823b1d59..., userDataDir: C:\Users\91936\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:58786}, goog:processID: 22592, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:58786/devtoo..., se:cdpVersion: 144.0.7559.133, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: b859309dffa5c889b4eb8ab17fe50c76
+	at org.openqa.selenium.support.ui.WebDriverWait.timeoutException(WebDriverWait.java:84)
+	at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:231)
+	at pages.ResultsPage.applyPriceFilter(ResultsPage.java:75)
+	at cucu.Cucufilter.apply_price_filter(Cucufilter.java:16)
+	at ✽.Apply price filter(file:///C:/Users/91936/eclipse-workspace/mmt/src/test/resources/feature/6filters.feature:14)
+
+TestRunner.Testrunner.runScenario["Test 20 - Apply rating filter and verify results", "Filters and Sorting Tests"](29) -- Time elapsed: 34.16 s <<< FAILURE!
+org.openqa.selenium.TimeoutException: 
+Expected condition failed: waiting for element found by By.xpath: //label[contains(text(),'Rating')] | //span[contains(@class,'rating')]//input[1] to be clickable, but the element was not found: org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {"method":"xpath","selector":"//label[contains(text(),'Rating')] | //span[contains(@class,'rating')]//input[1]"}.
+(tried for 15 seconds with 500 milliseconds interval)
+Build info: version: '4.40.0', revision: 'b3333f1'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '25.0.2'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 144.0.7559.133, chrome: {chromedriverVersion: 144.0.7559.133 (7da823b1d59..., userDataDir: C:\Users\91936\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:62821}, goog:processID: 23524, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:62821/devtoo..., se:cdpVersion: 144.0.7559.133, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: b5ef7a7f905ea1cd0b6ff0042fd41d46
+	at org.openqa.selenium.support.ui.WebDriverWait.timeoutException(WebDriverWait.java:84)
+	at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:231)
+	at pages.ResultsPage.applyRatingFilter(ResultsPage.java:89)
+	at cucu.Cucufilter.apply_rating_filter(Cucufilter.java:28)
+	at ✽.Apply rating filter(file:///C:/Users/91936/eclipse-workspace/mmt/src/test/resources/feature/6filters.feature:18)
+
+TestRunner.Testrunner.runScenario["Test 21 - Sort search results by price", "Filters and Sorting Tests"](30) -- Time elapsed: 35.07 s <<< FAILURE!
+org.openqa.selenium.TimeoutException: 
+Expected condition failed: waiting for element found by By.xpath: //span[contains(text(),'Price')] | //div[contains(text(),'Cheapest')] to be clickable, but the element was not found: org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {"method":"xpath","selector":"//span[contains(text(),'Price')] | //div[contains(text(),'Cheapest')]"}.
+(tried for 15 seconds with 500 milliseconds interval)
+Build info: version: '4.40.0', revision: 'b3333f1'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '25.0.2'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 144.0.7559.133, chrome: {chromedriverVersion: 144.0.7559.133 (7da823b1d59..., userDataDir: C:\Users\91936\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:50267}, goog:processID: 8160, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:50267/devtoo..., se:cdpVersion: 144.0.7559.133, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: bfa3c982c9b3696ecbcf0e5f66d68138
+	at org.openqa.selenium.support.ui.WebDriverWait.timeoutException(WebDriverWait.java:84)
+	at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:231)
+	at pages.ResultsPage.sortByPrice(ResultsPage.java:100)
+	at cucu.Cucufilter.sort_by_price(Cucufilter.java:34)
+	at ✽.Sort by price(file:///C:/Users/91936/eclipse-workspace/mmt/src/test/resources/feature/6filters.feature:22)
+
+TestRunner.Testrunner.runScenario["Test 22 - Clear applied filters and verify results reset", "Filters and Sorting Tests"](31) -- Time elapsed: 35.14 s <<< FAILURE!
+org.openqa.selenium.TimeoutException: 
+Expected condition failed: waiting for element found by By.xpath: //label[contains(text(),'Price')] | //span[contains(text(),'Price')]//following::input[1] to be clickable, but the element was not found: org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {"method":"xpath","selector":"//label[contains(text(),'Price')] | //span[contains(text(),'Price')]//following::input[1]"}.
+(tried for 15 seconds with 500 milliseconds interval)
+Build info: version: '4.40.0', revision: 'b3333f1'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '25.0.2'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 144.0.7559.133, chrome: {chromedriverVersion: 144.0.7559.133 (7da823b1d59..., userDataDir: C:\Users\91936\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:61994}, goog:processID: 20608, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:61994/devtoo..., se:cdpVersion: 144.0.7559.133, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 0a1df4b4c06cba6d4cf887d39cca0e32
+	at org.openqa.selenium.support.ui.WebDriverWait.timeoutException(WebDriverWait.java:84)
+	at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:231)
+	at pages.ResultsPage.applyPriceFilter(ResultsPage.java:75)
+	at cucu.Cucufilter.apply_price_filter(Cucufilter.java:16)
+	at ✽.Apply price filter(file:///C:/Users/91936/eclipse-workspace/mmt/src/test/resources/feature/6filters.feature:26)
+
