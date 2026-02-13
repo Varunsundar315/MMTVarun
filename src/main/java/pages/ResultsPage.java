@@ -1,10 +1,9 @@
 package pages;
 
 import java.time.Duration;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
+import java.util.List;
+
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -16,14 +15,15 @@ public class ResultsPage {
     private WebDriverWait wait;
     private JavascriptExecutor js;
 
-    @FindBy(xpath = "//div[contains(@class,'fliListCard')]")
+    @FindBy(xpath = "//div[contains(@class,'listingCardWrap')]")
     private WebElement flightResults;
 
-    @FindBy(xpath = "(//div[contains(@class,'fliListCard')])[1]")
+    @FindBy(xpath = "((//div[contains(@class,'listingCardWrap')]//div[contains(@class,'listingCard')])[1]")
     private WebElement firstFlight;
 
     @FindBy(xpath = "//div[contains(@class,'priceInfo')]")
     private WebElement fareDetails;
+
     @FindBy(xpath = "//p[@data-cy='submit']")
     private WebElement searchButton;
 
@@ -33,119 +33,91 @@ public class ResultsPage {
         this.js = (JavascriptExecutor) driver;
         PageFactory.initElements(driver, this);
     }
-
     public boolean isFlightResultsDisplayed() {
-        try {
-            wait.until(ExpectedConditions.visibilityOf(flightResults));
-            return true;
-        } catch (Exception e) {
-            System.out.println("Flight results not visible: " + e.getMessage());
-            return false;
-        }
+        wait.until(ExpectedConditions.visibilityOf(flightResults));
+        return true;
     }
 
     public void clickFirstFlight() {
         try {
-            wait.until(ExpectedConditions.elementToBeClickable(firstFlight));
-            firstFlight.click();
-            System.out.println("First flight clicked");
-        } catch (Exception e) {
-            System.out.println("Error clicking first flight: " + e.getMessage());
-        }
+       
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@data-test='flight-card' or contains(@class,'listingCard')]")));
+            List<WebElement> flights = driver.findElements(
+                By.xpath("//div[@data-test='flight-card' or contains(@class,'listingCard')]"));
+
+            if (flights.size() > 0) {
+                js.executeScript("arguments[0].scrollIntoView(true);", flights.get(0));
+                js.executeScript("arguments[0].click();", flights.get(0));
+                System.out.println("First flight clicked successfully");
+            } else {
+                System.out.println("No flights found");
+            }
+
+        } catch (Exception ignored) {
+                             }
     }
 
     public boolean isFlightDetailsPageDisplayed() {
-        try {
-            wait.until(ExpectedConditions.urlContains("www.makemytrip.com"));
-            return true;
-        } catch (Exception e) {
-            System.out.println("Flight details page not loaded: " + e.getMessage());
-            return false;
-        }
+        wait.until(ExpectedConditions.urlContains("makemytrip.com"));
+        return true;
     }
 
     public boolean isFareDisplayed() {
-        try {
-            wait.until(ExpectedConditions.visibilityOf(searchButton));
-            return true;
-        } catch (Exception e) {
-            System.out.println("Fare details not visible: " + e.getMessage());
-            return false;
-        }
+        wait.until(ExpectedConditions.visibilityOf(searchButton));
+        return true;
     }
 
     public void applyPriceFilter() {
-        try {
-            
-            Thread.sleep(20);
-            
-            WebElement priceFilter = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//label[contains(text(),'Price')] | //span[contains(text(),'Price')]//following::input[1]")));
-            js.executeScript("arguments[0].click();", priceFilter);
-            
-            System.out.println("Price filter applied");
-            Thread.sleep(20);
-        } catch (Exception e) {
-            System.out.println("Error applying price filter: " + e.getMessage());
-        }
+
+        By priceFilter = By.xpath(
+                "//label[contains(text(),'Price')] | " + "//span[contains(text(),'Price')]//following::input[1]");
+        WebElement filter =
+                wait.until(ExpectedConditions.elementToBeClickable(priceFilter));
+
+        js.executeScript("arguments[0].scrollIntoView({block:'center'});", filter);
+        js.executeScript("arguments[0].click();", filter);
     }
 
     public void applyRatingFilter() {
-        try {
-            Thread.sleep(20);
-            
-           
-            WebElement ratingFilter = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//label[contains(text(),'Rating')] | //span[contains(@class,'rating')]//input[1]")));
-            js.executeScript("arguments[0].click();", ratingFilter);
-            
-            System.out.println("Rating filter applied");
-            Thread.sleep(20);
-        } catch (Exception e) {
-            System.out.println("Error applying rating filter: " + e.getMessage());
-        }
+
+        By ratingFilter = By.xpath(
+                "//label[contains(text(),'Rating')] | " +
+                "//span[contains(@class,'rating')]//input[1]"
+        );
+
+        WebElement filter =
+                wait.until(ExpectedConditions.elementToBeClickable(ratingFilter));
+
+        js.executeScript("arguments[0].scrollIntoView({block:'center'});", filter);
+        js.executeScript("arguments[0].click();", filter);
     }
 
     public void sortByPrice() {
-        try {
-            Thread.sleep(20);
-            
-            WebElement sortPrice = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//span[contains(text(),'Price')] | //div[contains(text(),'Cheapest')]")));
-            js.executeScript("arguments[0].click();", sortPrice);
-            
-            System.out.println("Sorted by price");
-            Thread.sleep(20);
-        } catch (Exception e) {
-            System.out.println("Error sorting by price: " + e.getMessage());
-        }
+
+        By sortPrice = By.xpath( "//span[contains(text(),'Price')] | " + "//div[contains(text(),'Cheapest')]");
+
+        WebElement sort =
+                wait.until(ExpectedConditions.elementToBeClickable(sortPrice));
+
+        js.executeScript("arguments[0].scrollIntoView({block:'center'});", sort);
+        js.executeScript("arguments[0].click();", sort);
     }
 
     public void clearFilters() {
-        try {
-            Thread.sleep(20);
-            
-           
-            WebElement clearBtn = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//span[contains(text(),'Clear')] | //button[contains(text(),'Clear')]")));
-            js.executeScript("arguments[0].click();", clearBtn);
-            
-            System.out.println("All filters cleared");
-            Thread.sleep(20);
-        } catch (Exception e) {
-            System.out.println("Error clearing filters: " + e.getMessage());
-        }
-    }
 
+        By clearBtn = By.xpath("//span[contains(text(),'Clear')] | " +  "//button[contains(text(),'Clear')]");
+
+        WebElement clear =
+                wait.until(ExpectedConditions.elementToBeClickable(clearBtn));
+
+        js.executeScript("arguments[0].scrollIntoView({block:'center'});", clear);
+        js.executeScript("arguments[0].click();", clear);
+    }
     public boolean resultsDisplayed() {
-        try {
-            return wait.until(ExpectedConditions.or(
-                ExpectedConditions.urlContains("www.makemytrip.com"),
+        wait.until(ExpectedConditions.or(
+                ExpectedConditions.urlContains("makemytrip.com"),
                 ExpectedConditions.urlContains("hotel")
-            ));
-        } catch (Exception e) {
-            System.out.println("Results page not loaded: " + e.getMessage());
-            return false;
-        }
+        ));
+        return true;
     }
 }
